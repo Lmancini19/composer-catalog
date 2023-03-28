@@ -1,0 +1,30 @@
+:root {
+    --font1: 'Source Code Pro', monospace;
+    --font2: 'Pokemon Solid', sans-serif; 
+    --black: #000;
+    --white: #fff;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    background-color: var(--black);
+    color: var(--white);
+  }
+
+  p {
+    text-align: center;
+    font-family: var(--font1);
+    font-size: 2em;
+  }
+
+  h1 {
+    background-color: var(--black);
+    font-family: var(--font2);
+    color: #ebe30c;
+    text-align: center;
+    text-shadow: 2px 2px 15px #0c3ceb;
+    font-size: 2.5em;
+  }
