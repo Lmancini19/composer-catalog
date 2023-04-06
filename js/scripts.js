@@ -5,12 +5,12 @@ let pokemonList = [
     { name: 'Squirtle', height: 0.5, type: ['Water'] }    
 ];
 
-// loop over pokemonList and write each pokemon to html, if pokemon is over 0.7m add additional message 
-for (let i =  0; i < pokemonList.length; i++) {
-    if (pokemonList[i].height >= 0.7) {
-        document.write("<p>" + pokemonList[i].name + " (height: " +  pokemonList[i].height + ")" + " -Wow, that's big! </p>")
+// write a pokemon to html, if pokemon is over 0.7m add additional message 
+function writePokemonToHTML(pokemon) {
+    if (pokemon.height >= 0.7) {
+        document.write("<p>" + pokemon.name + " (height: " +  pokemon.height + ")" + " -Wow, that's big! </p>")
     } else {
-        document.write("<p>" + pokemonList[i].name + " (height: " +  pokemonList[i].height + ")</p>")
+        document.write("<p>" + pokemon.name + " (height: " +  pokemon.height + ")</p>")
     }
 }
-
+pokemonList.forEach(writePokemonToHTML);
