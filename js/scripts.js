@@ -8,7 +8,7 @@ let composerRepository = (function() {
     ];
 
     function getAll() {
-        return composerList
+        return composerList;
     }
 
     function add(composer) {
@@ -19,21 +19,26 @@ let composerRepository = (function() {
               composerList.push(composer);
         } else {
               console.log('Composer input data is not valid.');
-
+        }
+    }
+    
+    // create button with composer name and write to html
+    function addListItem(composer) {
+        let composerList = document.querySelector('.composer-list');
+        let listItem = document.createElement('li');
+        let button = document.createElement('button');
+        button.innerText = composer.name;
+        button.classList.add('button-style');
+        listItem.appendChild(button);
+        composerList.appendChild(listItem);
+    }
     return {
         getAll: getAll,
-        add: add
+        add: add,
+        addListItem: addListItem
     };
 })();
 
 
-// write a pokemon to html, if pokemon is over 0.7m add additional message 
-function writePokemonToHTML(pokemon) {
-    if (pokemon.height >= 0.7) {
-        document.write("<p>" + pokemon.name + " (height: " +  pokemon.height + ")" + " -Wow, that's big! </p>")
-    } else {
-        document.write("<p>" + pokemon.name + " (height: " +  pokemon.height + ")</p>")
-    }
-}
-pokemonRepository.getAll().forEach(writePokemonToHTML);
+composerRepository.getAll().forEach(composerRepository.addListItem);
 
