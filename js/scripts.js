@@ -12,8 +12,14 @@ let pokemonRepository = (function() {
     }
 
     function add(pokemon) {
-        pokemonList.push(pokemon)
-    }
+        if (typeof(pokemon) === 'object' && 
+            Object.keys(pokemon).includes('name') &&
+            Object.keys(pokemon).includes('height') && 
+            Object.keys(pokemon).includes('type')) {
+              pokemonList.push(pokemon);
+              console.log('You have discovered a new pokemon!');
+        } else {
+              console.log('Pokemon data is not valid.');
 
     return {
         getAll: getAll,
@@ -31,3 +37,4 @@ function writePokemonToHTML(pokemon) {
     }
 }
 pokemonRepository.getAll().forEach(writePokemonToHTML);
+
