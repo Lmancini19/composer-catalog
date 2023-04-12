@@ -1,25 +1,24 @@
-let pokemonRepository = (function() {
+let composerRepository = (function() {
 
-    // list of pokemon
-    let pokemonList = [ 
-        { name: 'Bulbasaur', height: 0.7, type: ['Grass', 'Poison'] },
-        { name: 'Charmander', height: 0.6, type: ['Fire']},
-        { name: 'Squirtle', height: 0.5, type: ['Water'] }    
+    // list of composers
+    let composerList = [ 
+        { name: 'Johann Sebastian Bach', birth: 1685, death: 1750 },
+        { name: 'Ludwig Van Beethoven', birth: 1770, death: 1827},
+        { name: 'Wolfgang Amadeus Mozart', birth: 1756, death: 1791}    
     ];
 
     function getAll() {
-        return pokemonList
+        return composerList
     }
 
-    function add(pokemon) {
-        if (typeof(pokemon) === 'object' && 
-            Object.keys(pokemon).includes('name') &&
-            Object.keys(pokemon).includes('height') && 
-            Object.keys(pokemon).includes('type')) {
-              pokemonList.push(pokemon);
-              console.log('You have discovered a new pokemon!');
+    function add(composer) {
+        if (typeof(composer) === 'object' && 
+            Object.keys(composer).includes('name') &&
+            Object.keys(composer).includes('birth') && 
+            Object.keys(composer).includes('death')) {
+              composerList.push(composer);
         } else {
-              console.log('Pokemon data is not valid.');
+              console.log('Composer input data is not valid.');
 
     return {
         getAll: getAll,
