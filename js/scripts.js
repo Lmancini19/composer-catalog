@@ -30,15 +30,27 @@ let composerRepository = (function() {
         button.innerText = composer.name;
         button.classList.add('button-style');
         listItem.appendChild(button);
+        addEventListenerToButton(button, composer);
         composerList.appendChild(listItem);
     }
+
+    // add event listener to composer buttons 
+    function addEventListenerToButton(button, composer) {
+        button.addEventListener('click', function(event) {
+            showDetails(composer);
+        });
+    }
+
+    function showDetails(composer) {
+        console.log(composer)
+    }
+
     return {
         getAll: getAll,
         add: add,
-        addListItem: addListItem
+        addListItem: addListItem,
     };
 })();
 
 
 composerRepository.getAll().forEach(composerRepository.addListItem);
-
