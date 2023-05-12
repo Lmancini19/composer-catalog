@@ -10,12 +10,11 @@ let composerRepository = (function() {
     }
 
     function add(composer) {
-        if (typeof(composer) === 'object' && 
-            Object.keys(composer).includes('name') &&
-            Object.keys(composer).includes('birth') && 
-            Object.keys(composer).includes('death') &&
-            Object.keys(composer).includes('portraitUrl') &&
-            Object.keys(composer).includes('openOpusId')) {
+        if (composer?.name &&
+            composer?.birth &&
+            composer?.death && 
+            composer?.portraitUrl &&
+            composer?.openOpusId) {
               composerList.push(composer);
         } else {
               console.log('Composer input data is not valid.');
@@ -41,11 +40,13 @@ let composerRepository = (function() {
         });
     }
 
-    function showDetails(composer) {
-        loadDetails(composer).then(function () {
-            console.log(composer)
-        });
-    }
+    // function showDetails(composer) {
+    //     loadDetails(composer).then(function () {
+    //         console.log(composer)
+    //     });
+    // }
+
+    
 
     function loadList() {
         return fetch(apiUrl).then(function (response) {
@@ -77,13 +78,7 @@ let composerRepository = (function() {
         });
     }
     
-    return {
-        getAll: getAll,
-        add: add,
-        addListItem: addListItem,
-        loadList: loadList,
-        loadDetails: loadDetails
-    };
+    return { getAll, add, addListItem, loadList, loadDetails };
 })();
 
 composerRepository.loadList().then(function() {
