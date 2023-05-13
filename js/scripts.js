@@ -3,6 +3,7 @@ let composerRepository = (function() {
     // list of composers
     let composerList = [];
     let apiUrl = 'https://api.openopus.org/composer/list/pop.json';
+    let modalContainer = document.querySelector('#modal-container');
     
 
     function getAll() {
@@ -40,13 +41,68 @@ let composerRepository = (function() {
         });
     }
 
-    // function showDetails(composer) {
-    //     loadDetails(composer).then(function () {
-    //         console.log(composer)
-    //     });
-    // }
+    function showDetails(composer) {
+        loadDetails(composer).then(function () {
+            showModal(composer)
+        });
+    }
 
+    function showModal(composer) {
+        // create modal container parent
+        modalContainer.innerHTML = '';
+        let modal = document.createElement('div');
+        modal.classList.add('modal');
+
+        //create close button for modal
+        let closeButtonElement = document.createElement('button');
+        closeButtonElement.classList.add('modal-close');
+        closeButtonElement.innerText = 'Close';
+        closeButtonElement.addEventListener('click', hideModal);
+
+        let nameElement = document.createElement('h1');
+        nameElement.innerText = composer.name;
+
+        let birthElement = document.createElement('p');
+        birthElement.innerText = 'Birth: ' + composer.birth;
+
+        let deathElement = document.createElement('p');
+        deathElement.innerText = 'Death: ' + composer.death;
+
+        let portraitElement = document.createElement('img');
+        portraitElement.setAttribute('src', composer.portraitUrl);
+
+        modal.appendChild(closeButtonElement);
+        modal.appendChild(nameElement);
+        modal.appendChild(birthElement);
+        modal.appendChild(deathElement);
+        modal.appendChild(portraitElement);
+        modalContainer.appendChild(modal);
     
+        modalContainer.classList.add('is-visible');
+    }
+
+    function hideModal() {
+        modalContainer.classList.remove('is-visible');
+      }
+    
+      window.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modalContainer.classList.contains('is-visible')) {
+          hideModal();  
+        }
+      });
+      
+      modalContainer.addEventListener('click', (e) => {
+        // Since this is also triggered when clicking INSIDE the modal
+        // We only want to close if the user clicks directly on the overlay
+        let target = e.target;
+        if (target === modalContainer) {
+          hideModal();
+        }
+      });
+    
+    //   document.querySelector('#show-modal').addEventListener('click', () => {
+    //     showModal('Modal title', 'This is the modal content!');
+    //   });
 
     function loadList() {
         return fetch(apiUrl).then(function (response) {
@@ -87,3 +143,5 @@ composerRepository.loadList().then(function() {
       composerRepository.addListItem(composer);
     });
   });
+
+  
