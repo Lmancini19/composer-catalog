@@ -3,9 +3,7 @@ let composerRepository = (function() {
     // list of composers
     let composerList = [];
     let apiUrl = 'https://api.openopus.org/composer/list/pop.json';
-    let modalContainer = document.querySelector('#modal-container');
     
-
     function getAll() {
         return composerList;
     }
@@ -24,14 +22,28 @@ let composerRepository = (function() {
     
     // create button with composer name and write to html
     function addListItem(composer) {
-        let composerList = document.querySelector('.composer-list');
-        let listItem = document.createElement('li');
+        let composerListElement = document.querySelector('.composer-list');
+        let listItem = document.createElement('div');
         let button = document.createElement('button');
         button.innerText = composer.name;
-        button.classList.add('button-style');
+        button.classList.add('btn','btn-outline-dark');
+        button.setAttribute('data-toggle', 'modal');
+        button.setAttribute('data-target', '#exampleModal');
+        listItem.classList.add('col-md-4', 'mb-3', 'text-center');
         listItem.appendChild(button);
         addEventListenerToButton(button, composer);
-        composerList.appendChild(listItem);
+
+        if (composerListElement.children.length % 4 === 0) {
+          // Create a new row div
+          let newRow = document.createElement('div');
+          newRow.classList.add('row');
+          composerListElement.appendChild(newRow);
+        }
+        
+        // Get the last row and append the list item to it
+        let rows = composerListElement.getElementsByClassName('row');
+        let lastRow = rows[rows.length - 1];
+        lastRow.appendChild(listItem);
     }
 
     // add event listener to composer buttons 
@@ -48,61 +60,35 @@ let composerRepository = (function() {
     }
 
     function showModal(composer) {
-        // create modal container parent
-        modalContainer.innerHTML = '';
-        let modal = document.createElement('div');
-        modal.classList.add('modal');
+      let modalBody = $('.modal-body');
+      let modalTitle = $('.modal-title');
+      let modalHeader = $('.modal-header')
+      let headerButton = $('.close')
 
-        //create close button for modal
-        let closeButtonElement = document.createElement('button');
-        closeButtonElement.classList.add('modal-close');
-        closeButtonElement.innerText = 'Close';
-        closeButtonElement.addEventListener('click', hideModal);
+      modalHeader.empty();
+      modalTitle.empty();
+      modalBody.empty();
 
-        let nameElement = document.createElement('h1');
-        nameElement.innerText = composer.name;
-
-        let birthElement = document.createElement('p');
-        birthElement.innerText = 'Birth: ' + composer.birth;
-
-        let deathElement = document.createElement('p');
-        deathElement.innerText = 'Death: ' + composer.death;
-
-        let portraitElement = document.createElement('img');
-        portraitElement.setAttribute('src', composer.portraitUrl);
-
-        modal.appendChild(closeButtonElement);
-        modal.appendChild(nameElement);
-        modal.appendChild(birthElement);
-        modal.appendChild(deathElement);
-        modal.appendChild(portraitElement);
-        modalContainer.appendChild(modal);
-    
-        modalContainer.classList.add('is-visible');
-    }
-
-    function hideModal() {
-        modalContainer.classList.remove('is-visible');
-      }
-    
-      window.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && modalContainer.classList.contains('is-visible')) {
-          hideModal();  
-        }
-      });
       
-      modalContainer.addEventListener('click', (e) => {
-        // Since this is also triggered when clicking INSIDE the modal
-        // We only want to close if the user clicks directly on the overlay
-        let target = e.target;
-        if (target === modalContainer) {
-          hideModal();
-        }
-      });
+      let nameElement = document.createElement('h5');
+      nameElement.innerText = composer.name;
+
+      let birthElement = document.createElement('p');
+      birthElement.innerText = 'Birth: ' + composer.birth;
+
+      let deathElement = document.createElement('p');
+      deathElement.innerText = 'Death: ' + composer.death;
+
+      let portraitElement = document.createElement('img');
+      portraitElement.setAttribute('src', composer.portraitUrl);
+      portraitElement.setAttribute("alt", "Portrait of the composer")
+
+      modalHeader.append(nameElement, headerButton);
+      modalBody.append(portraitElement);
+      modalBody.append(birthElement);
+      modalBody.append(deathElement);
+    };
     
-    //   document.querySelector('#show-modal').addEventListener('click', () => {
-    //     showModal('Modal title', 'This is the modal content!');
-    //   });
 
     function loadList() {
         return fetch(apiUrl).then(function (response) {
@@ -134,7 +120,7 @@ let composerRepository = (function() {
         });
     }
     
-    return { getAll, add, addListItem, loadList, loadDetails };
+    return { getAll, add, addListItem, loadList, loadDetails, showModal };
 })();
 
 composerRepository.loadList().then(function() {
