@@ -48,7 +48,7 @@ let composerRepository = (function() {
 
     // add event listener to composer buttons 
     function addEventListenerToButton(button, composer) {
-        button.addEventListener('click', function(event) {
+        button.addEventListener('click', function() {
             showDetails(composer);
         });
     }
@@ -81,13 +81,13 @@ let composerRepository = (function() {
 
       let portraitElement = document.createElement('img');
       portraitElement.setAttribute('src', composer.portraitUrl);
-      portraitElement.setAttribute("alt", "Portrait of the composer")
+      portraitElement.setAttribute('alt', 'Portrait of the composer')
 
       modalHeader.append(nameElement, headerButton);
       modalBody.append(portraitElement);
       modalBody.append(birthElement);
       modalBody.append(deathElement);
-    };
+    }
     
 
     function loadList() {
