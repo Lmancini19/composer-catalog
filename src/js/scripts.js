@@ -10,6 +10,8 @@ let composerRepository = (function() {
 
     function add(composer) {
         if (composer?.name &&
+            composer?.fullName &&
+            composer?.epoch &&
             composer?.birth &&
             composer?.death && 
             composer?.portraitUrl &&
@@ -69,15 +71,20 @@ let composerRepository = (function() {
       modalTitle.empty();
       modalBody.empty();
 
-      
       let nameElement = document.createElement('h5');
-      nameElement.innerText = composer.name;
+      nameElement.innerHTML = '<strong>' + composer.name + '</strong>';
+
+      let fullNameElement = document.createElement('p');
+      fullNameElement.innerHTML = '<strong>Full Name:</strong> ' + composer.fullName;
+
+      let epochElement = document.createElement('p');
+      epochElement.innerHTML = '<strong>Epoch:</strong> ' + composer.epoch;
 
       let birthElement = document.createElement('p');
-      birthElement.innerText = 'Birth: ' + composer.birth;
+      birthElement.innerHTML = '<strong>Birth:</strong> ' + composer.birth;
 
       let deathElement = document.createElement('p');
-      deathElement.innerText = 'Death: ' + composer.death;
+      deathElement.innerHTML = '<strong>Death:</strong> ' + composer.death;
 
       let portraitElement = document.createElement('img');
       portraitElement.setAttribute('src', composer.portraitUrl);
@@ -85,6 +92,8 @@ let composerRepository = (function() {
 
       modalHeader.append(nameElement, headerButton);
       modalBody.append(portraitElement);
+      modalBody.append(fullNameElement);
+      modalBody.append(epochElement);
       modalBody.append(birthElement);
       modalBody.append(deathElement);
     }
@@ -96,7 +105,9 @@ let composerRepository = (function() {
         }).then(function (json) {
           json.composers.forEach(function (item) {
             let composer = {
-                name: item.complete_name,
+                name: item.name,
+                fullName: item.complete_name,
+                epoch: item.epoch,
                 birth: item.birth,
                 death: item.death,
                 portraitUrl: item.portrait,
@@ -129,5 +140,3 @@ composerRepository.loadList().then(function() {
       composerRepository.addListItem(composer);
     });
   });
-
-  
